@@ -10,7 +10,7 @@ document.getElementById("product-form").addEventListener("submit", async (event)
             desc:desc.value
         }
         const createdProduct = await axios.post("http://localhost:3000/products",product)
-        console.log(createdProduct)
+        console.log(createdProduct.data)
     }catch(er){
         alert("erro")
         console.log(er)
