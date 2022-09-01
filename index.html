@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto com Local Storage</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <button id="theme" class="dark">Tema</button>
+        <h2>Produtos</h2>
+        <form action="" id="product-form">
+            <div class="form-group">
+                <label for="name">Nome</label>
+            <input type="text" name="name" id="name" pattern="[a-zA-Z]+" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Preço</label>
+                <input type="text" name="price" id="price" pattern="[0-9]+" required>
+            </div>
+            <div class="form-group">
+                <label for="desc">Descrição</label>
+                <input type="text" name="desc" id="desc" pattern="[a-zA-Z]+" required>
+            </div>
+            <div class="form-group" style="flex-direction:row">
+                <button id="" type="submit">Cadastrar</button>
+                <button id="" type="reset" id="clear">Limpar</button>
+            </div>
+            
+        </form>
+    </main>
+    <section id="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <td class="table-row">NOME</td>
+                    <td class="table-row">PREÇO</td>
+                    <td class="table-row">DESCRIÇÃO</td>
+                    <td class="table-row">AÇÔES</td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </section>
+    <div id="update">
+        <form>
+            <input type="text" id="eName" placeholder="Nome" required>
+            <input type="text" id="ePrice" placeholder="Preço" required>
+            <input type="text" id="eDesc" placeholder="Descrição" required>
+            <button type="submit">Salvar</button>
+            <button>Cancelar</button>
+        </form>
+    </div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
