@@ -1,6 +1,11 @@
+const api = axios.create({
+    baseURL: "http://localhost:3000"
+})
+
 async function removeProduct(id){
     try{
-        const res = axios.delete(`http://localhost:3000/products/${id}`)        
+        await api.delete(`/products/${id}`)
+        renderProducts()
     }catch(e){
         alert(e)
     }
@@ -8,7 +13,7 @@ async function removeProduct(id){
 
 async function renderProducts(){
     try{
-        const res = await axios.get("http://localhost:3000/products")
+        const res = await api.get("/products")
         const products = res.data
         const tbody = document.querySelector("tbody")
         tbody.innerHTML=""
@@ -26,7 +31,6 @@ async function renderProducts(){
             tbody.appendChild(tr)
             document.querySelector(`#R${product.id}`).addEventListener("click",()=>{
                 removeProduct(product.id)
-                renderProducts()
             })
 
         });
@@ -48,11 +52,11 @@ document.getElementById("product-form").addEventListener("submit", async (event)
             price:parseInt(price.value),
             desc:desc.value
         }
-        const createdProduct = await axios.post("http://localhost:3000/products",product)
+        const createdProduct = await api.post("/products",product)
         await renderProducts()
 
         window.scrollTo({top: document.body.scrollHeight,behavior:"smooth"})
-        //const del = await axios.delete("http://localhost:3000/products/1")
+        //const del = await axios.delete("/products/1")
         //console.log(del)
     }catch(er){
         alert("erro")
