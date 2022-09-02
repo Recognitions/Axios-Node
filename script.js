@@ -1,3 +1,11 @@
+async function removeProduct(id){
+    try{
+        const res = axios.delete(`http://localhost:3000/products/${id}`)        
+    }catch(e){
+        alert(e)
+    }
+}
+
 async function renderProducts(){
     try{
         const res = await axios.get("http://localhost:3000/products")
@@ -12,10 +20,15 @@ async function renderProducts(){
                 <td>${product.desc}</td>
                 <td>
                     <button type="button" class="btn warning">E</button>
-                    <button type="button" class="btn danger">X</button>
+                    <button type="button" class="btn danger" id="R${product.id}">X</button>
                 </td>
             `
             tbody.appendChild(tr)
+            document.querySelector(`#R${product.id}`).addEventListener("click",()=>{
+                removeProduct(product.id)
+                renderProducts()
+            })
+
         });
     }catch(e){}
 }
@@ -36,13 +49,15 @@ document.getElementById("product-form").addEventListener("submit", async (event)
             desc:desc.value
         }
         const createdProduct = await axios.post("http://localhost:3000/products",product)
-        console.log(createdProduct.data)
-        renderProducts()
+        await renderProducts()
 
+        window.scrollTo({top: document.body.scrollHeight,behavior:"smooth"})
         //const del = await axios.delete("http://localhost:3000/products/1")
         //console.log(del)
     }catch(er){
         alert("erro")
         console.log(er)
+    }finally{
+        name.value=price.value=desc.value=""
     }
 })
