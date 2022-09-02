@@ -39,13 +39,13 @@ async function renderProducts(){
             document.querySelector(`#R${product.id}`).addEventListener("click",()=>{
                 removeProduct(product.id)
             })
-            document.querySelector(`#E${product.id}`).addEventListener("click",()=>{
-                const fetched = fetchProduct(product.id)
+            document.querySelector(`#E${product.id}`).addEventListener("click",async()=>{
+                const { data:fetched } = await fetchProduct(product.id)
 
-                document.querySelector("#update form").dataset.id=fetched.data.id
-                document.getElementById("eName").value=fetched.data.name
-                document.getElementById("ePrice").value=fetched.data.price
-                document.getElementById("eDesc").value=fetched.data.desc
+                document.querySelector("#update form").dataset.id=fetched.id
+                document.getElementById("eName").value=fetched.name
+                document.getElementById("ePrice").value=fetched.price
+                document.getElementById("eDesc").value=fetched.desc
                 document.querySelector("#update").style.display="flex"
             })
             
@@ -83,17 +83,20 @@ document.getElementById("product-form").addEventListener("submit", async (event)
     }
 })
 
-document.querySelector("#update form").addEventListener("submit",(event)=>{
+document.querySelector("#update form").addEventListener("submit",async(event)=>{
     event.preventDefault()
-    const product = {
-        id:document.querySelector("#update form").dataset.id,
-        name:document.getElementById("eName").value,
-        price:document.getElementById("ePrice").value,
-        desc:document.getElementById("eDesc").value
+    try {
+        const updatedProduct = {
+            name:document.getElementById("eName").value,
+            price:document.getElementById("ePrice").value,
+            desc:document.getElementById("eDesc").value
+        }
+       const res = await api.put(`/products/${event.target.dataset.id}`,updatedProduct)
+       renderProducts()
+       document.querySelector("#update").style.display="none"
+    } catch (error) {
+        
     }
-    //removeProduct(product.id)
-    updateProduct(product)
-    renderProducts()
 })
 
 document.querySelector("#update form button:last-child").addEventListener("click",(event)=>{
