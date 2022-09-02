@@ -156,6 +156,7 @@ h2{
     flex-direction: column;
     background-color: var(--first);
     padding: 1rem 0.5rem;
+    transition: opacity 0.2s !important;
 }#update form input{
     background-color: var(--second);
     color: var(--text);

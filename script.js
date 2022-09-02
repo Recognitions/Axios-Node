@@ -11,6 +11,13 @@ async function removeProduct(id){
     }
 }
 
+async function fetchProduct(id){
+    try{
+        const res = await api.get(`/products/${id}`)
+        return res
+    }catch(e){alert(e); return false}
+}
+
 async function renderProducts(){
     try{
         const res = await api.get("/products")
@@ -24,7 +31,7 @@ async function renderProducts(){
                 <td>${product.price}</td>
                 <td>${product.desc}</td>
                 <td>
-                    <button type="button" class="btn warning">E</button>
+                    <button type="button" class="btn warning" id="E${product.id}">E</button>
                     <button type="button" class="btn danger" id="R${product.id}">X</button>
                 </td>
             `
@@ -32,6 +39,16 @@ async function renderProducts(){
             document.querySelector(`#R${product.id}`).addEventListener("click",()=>{
                 removeProduct(product.id)
             })
+            document.querySelector(`#E${product.id}`).addEventListener("click",()=>{
+                const fetched = fetchProduct(product.id)
+
+                document.querySelector("#update form").dataset.id=fetched.data.id
+                document.getElementById("eName").value=fetched.data.name
+                document.getElementById("ePrice").value=fetched.data.price
+                document.getElementById("eDesc").value=fetched.data.desc
+                document.querySelector("#update").style.display="flex"
+            })
+            
 
         });
     }catch(e){}
@@ -64,4 +81,23 @@ document.getElementById("product-form").addEventListener("submit", async (event)
     }finally{
         name.value=price.value=desc.value=""
     }
+})
+
+document.querySelector("#update form").addEventListener("submit",(event)=>{
+    event.preventDefault()
+    const product = {
+        id:document.querySelector("#update form").dataset.id,
+        name:document.getElementById("eName").value,
+        price:document.getElementById("ePrice").value,
+        desc:document.getElementById("eDesc").value
+    }
+    //removeProduct(product.id)
+    updateProduct(product)
+    renderProducts()
+})
+
+document.querySelector("#update form button:last-child").addEventListener("click",(event)=>{
+    event.preventDefault()
+    const update = document.getElementById("update")
+    update.style.display="none"
 })
