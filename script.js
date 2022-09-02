@@ -73,8 +73,6 @@ document.getElementById("product-form").addEventListener("submit", async (event)
         await renderProducts()
 
         window.scrollTo({top: document.body.scrollHeight,behavior:"smooth"})
-        //const del = await axios.delete("/products/1")
-        //console.log(del)
     }catch(er){
         alert("erro")
         console.log(er)
@@ -85,7 +83,7 @@ document.getElementById("product-form").addEventListener("submit", async (event)
 
 document.querySelector("#update form").addEventListener("submit",async(event)=>{
     event.preventDefault()
-    try {
+    try{
         const updatedProduct = {
             name:document.getElementById("eName").value,
             price:document.getElementById("ePrice").value,
@@ -94,9 +92,7 @@ document.querySelector("#update form").addEventListener("submit",async(event)=>{
        const res = await api.put(`/products/${event.target.dataset.id}`,updatedProduct)
        renderProducts()
        document.querySelector("#update").style.display="none"
-    } catch (error) {
-        
-    }
+    }catch(e){alert(e)}
 })
 
 document.querySelector("#update form button:last-child").addEventListener("click",(event)=>{
